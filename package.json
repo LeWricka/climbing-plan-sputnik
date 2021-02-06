@@ -4,6 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "author": "Iker Mariñelarena",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git"
@@ -11,7 +12,16 @@
   "engines": {
     "node": ">=12.0.0"
   },
+  "watch": {
+    "startWatch": "*.js",
+    "inspectWatch": "*.js"
+  },
   "scripts": {
+    "watch": "npm-watch start-function",
+    "debug": "npm-watch debug-function",
+    "debug-function": "npx --node-arg=--inspect @google-cloud/functions-framework --target=sputnik1",
+    "start-function": "npx @google-cloud/functions-framework --target=sputnik1 --allow-unauthenticated",
+    "deploy": "gcloud functions deploy sputnik1 --runtime nodejs12 --trigger-http --allow-unauthenticated",
     "unit-test": "mocha test/index.test.js test/*unit*test.js test/*integration*test.js --timeout=2000 --exit",
     "system-test": "mocha test/*system*test.js --timeout=600000 --exit",
     "all-test": "npm run unit-test && npm run system-test",
@@ -19,7 +29,8 @@
   },
   "dependencies": {
     "@google-cloud/debug-agent": "^5.0.0",
-    "escape-html": "^1.0.3"
+    "escape-html": "^1.0.3",
+    "node-watch": "^0.7.1"
   },
   "devDependencies": {
     "@google-cloud/functions-framework": "^1.1.1",
@@ -29,6 +40,7 @@
     "express": "^4.16.3",
     "mocha": "^8.0.0",
     "moment": "^2.24.0",
+    "npm-watch": "^0.6.0",
     "promise-retry": "^2.0.0",
     "proxyquire": "^2.1.0",
     "request": "^2.88.0",
